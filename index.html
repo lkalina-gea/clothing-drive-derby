@@ -56,16 +56,21 @@
       border-radius: 50%;
       flex-shrink: 0;
     }
-    /* Donation label styling */
+    .headshot-col {
+      width: 72px;
+      flex-shrink: 0;
+      display: flex;
+      justify-content: flex-start;
+    }
+    /* Points label styling */
     .donation-label {
-      position: absolute;
-      top: 70px;
       background: rgba(255, 255, 255, 0.8);
-      padding: 0px 5px;
+      padding: 0.35rem 0.6rem;
       border-radius: 5px;
       font-weight: bold;
-      font-size: 0.8rem;
-      z-index: 2;
+      font-size: 0.95rem;
+      text-align: center;
+      white-space: nowrap;
     }
     /* Donation button styling */
     .donate-button {
@@ -79,7 +84,12 @@
     .donate-controls {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+    }
+    .points-col {
+      width: 170px;
+      flex-shrink: 0;
+      display: flex;
+      justify-content: flex-start;
     }
   </style>
 </head>
@@ -155,17 +165,21 @@
       const row = document.createElement('div');
       row.className = 'row align-items-center mb-2';
       
-      // Create the column for the donation button with fixed width
-      const buttonCol = document.createElement('div');
-      buttonCol.className = 'col-auto donate-btn-col';
-      
-      const donateControls = document.createElement('div');
-      donateControls.className = 'donate-controls';
-
       const headshot = document.createElement('img');
       headshot.src = manager.headshot;
       headshot.alt = manager.name + ' headshot';
       headshot.className = 'manager-headshot';
+
+      const headshotCol = document.createElement('div');
+      headshotCol.className = 'col-auto headshot-col';
+      headshotCol.appendChild(headshot);
+
+      // Create the points column
+      const pointsCol = document.createElement('div');
+      pointsCol.className = 'col-auto points-col';
+
+      const donateControls = document.createElement('div');
+      donateControls.className = 'donate-controls';
 
       // Create the donation button as a link styled with Bootstrap's btn classes
       const donateButton = document.createElement('a');
@@ -177,8 +191,11 @@
       donateButton.style.border = 'none';
       donateButton.style.color = 'black';
       
-      // Append the headshot and donation button into the button column
-      donateControls.appendChild(headshot);
+      // Create the column for the donation button with fixed width
+      const buttonCol = document.createElement('div');
+      buttonCol.className = 'col-auto donate-btn-col';
+
+      // Append the donation button into the button column
       donateControls.appendChild(donateButton);
       buttonCol.appendChild(donateControls);
       
@@ -207,23 +224,25 @@
         img.src = manager.headshot;
       };
       
-      // Create the donation label with the same left offset
+      // Create the points label in a dedicated column outside the track
       const label = document.createElement('div');
       label.className = 'donation-label';
-      label.style.left = offsetPercent + '%';
-      label.innerText = manager.points + ' points';
-      
-      // Append the bar fill, image, and label to the track container
+      label.innerText = manager.name + ': ' + manager.points + ' points';
+
+      pointsCol.appendChild(label);
+
+      // Append the bar fill and image to the track container
       trackContainer.appendChild(barFill);
       trackContainer.appendChild(img);
-      trackContainer.appendChild(label);
       
       // Append the track container to its column
       trackCol.appendChild(trackContainer);
       
-      // Append both columns (donation button and track container) to the row
-      row.appendChild(buttonCol);
+      // Append the headshot column, points column, track column, and button column to the row
+      row.appendChild(headshotCol);
+      row.appendChild(pointsCol);
       row.appendChild(trackCol);
+      row.appendChild(buttonCol);
       
       // Append the completed row to the tracker container
       trackerDiv.appendChild(row);
