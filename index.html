@@ -16,6 +16,12 @@
     .header-row img {
       max-height: 100px;
     }
+    .header-icons {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
     /* Container for each row ("track") */
     .track-container {
       height: 90px;
@@ -79,9 +85,12 @@
 <body>
   <div class="container mt-4" id="tracker">
     <!-- Header with icon -->
-    <div class="row align-items-center header-row mb-4">
+    <div class="row align-items-start header-row mb-4">
       <div class="col-auto">
-        <img src="images/horse.png" alt="Racehorse and Jockey" class="img-fluid">
+        <div class="header-icons">
+          <img src="images/horse.png" alt="Racehorse and Jockey" class="img-fluid">
+          <img src="images/pie.png" alt="Pie" class="img-fluid">
+        </div>
       </div>
       <div class="col">
         <h1><b>Logistics Clothing Drive Derby</b></h1>
@@ -214,6 +223,7 @@
   <footer class="text-center mt-4">
     <br>
     <a href="https://www.flaticon.com/free-icons/horse" title="horse icons">Horse icons created by ultimatearm - Flaticon</a>
+    <a href="https://www.flaticon.com/free-icons/baking" title="baking icons">Baking icons created by Fajrul Fitrianto - Flaticon</a>
   </footer>
 </body>
 </html>
