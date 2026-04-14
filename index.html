@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Logistics Balloon Race Tracker</title>
+  <!-- Import Barlow font from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Barlow&display=swap" rel="stylesheet">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Barlow', sans-serif;
+    }
+    /* Header row styling */
+    .header-row img {
+      max-height: 100px;
+    }
+    /* Container for each row ("track") */
+    .track-container {
+      height: 90px;
+      background-color: #f8f9fa;
+      position: relative;
+      margin-bottom: 1rem;
+      border: 1px solid #dee2e6;
+      border-radius: 0.25rem;
+      overflow: hidden;
+    }
+    /* The colored bar fill to the left of the headshot */
+    .bar-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      z-index: 1;
+    }
+    /* Manager image styling */
+    .manager-img {
+      position: absolute;
+      top: 10px;
+      height: 70px;
+      width: auto;
+      border-radius: 50%;
+      z-index: 2;
+    }
+    /* Donation label styling */
+    .donation-label {
+      position: absolute;
+      top: 70px;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 0px 5px;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 0.8rem;
+      z-index: 2;
+    }
+    /* Donation button styling */
+    .donate-button {
+      margin-right: 1rem;
+    }
+    /* Fixed width for donation button column ensures the track containers start at the same horizontal position */
+    .donate-btn-col {
+      width: 150px;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-4" id="tracker">
+    <!-- Header with pie image -->
+    <div class="row align-items-center header-row mb-4">
+      <div class="col-auto">
+        <img src="images/hot-air-balloon.png" alt="Hot Air Balloon" class="img-fluid">
+      </div>
+      <div class="col">
+        <h1><b>Logistics Balloon Race Tracker</b></h1>
+        <p>Vote for a leader to win by donating to their Benevity page! The leader with the highest donations will "win" a pie in the face (date TBD). All donations go to <a href="https://backsidelearningcenter.org/" target="_blank">Backside Learning Center</a>. Donations close April 25. This tracker will be updated each weekday morning.</p>
+      </div>
+    </div>
+    <!-- Total Donations Section will be inserted here by script -->
+  </div>
+
+  <script>
+    // Define manager data with donation, headshot, bar color, and unique donation link
+    const managerData = [
+      { name: 'Allison', donation: 70, image: 'images/Allison.jpg', color: '#BA6B6B', donationLink: 'https://benevityapp.page.link/X8fXc1qeMj9obrMP8' },
+      { name: 'David',   donation: 300,  image: 'images/David.jpg',   color: '#D9A16C', donationLink: 'https://benevityapp.page.link/x2xvbKagdjnxTTAm7' },
+      { name: 'Mary',    donation: 65, image: 'images/Mary.jpg',    color: '#E6C75A', donationLink: 'https://benevityapp.page.link/qWaBcpJUdkZotbWd6' },
+      { name: 'Wanda',   donation: 200, image: 'images/Wanda.jpg',   color: '#F6EA8C', donationLink: 'https://benevityapp.page.link/mnsjWQY2cGe8uiPm8' },
+      { name: 'Jim',     donation: 576, image: 'images/Jim.jpg',     color: '#92C68D', donationLink: 'https://benevityapp.page.link/2JQTN6BB67nrQt9eA' },
+      { name: 'Jenn',    donation: 665,  image: 'images/Jenn.jpg',    color: '#6678C1', donationLink: 'https://benevityapp.page.link/QKgeVioqbuCCX4HN6' },
+      { name: 'Melinda', donation: 70,  image: 'images/Melinda.jpg', color: '#A18FCB', donationLink: 'https://benevityapp.page.link/MRDamnfko5KRD23x7' },
+      { name: 'Adam',    donation: 140, image: 'images/Adam.jpg',    color: '#D8A0B6', donationLink: 'https://benevityapp.page.link/uWQMi6xt38zMvNQE8' }
+    ];
+    
+    // Calculate the maximum donation (to use as the baseline for positioning)
+    const maxDonation = Math.max(...managerData.map(m => m.donation));
+    // Define the maximum left offset in percentage for the highest donation.
+    const maxOffsetPercent = 80;
+    
+    // Calculate total donations collected from all managers
+    const totalDonations = managerData.reduce((sum, manager) => sum + manager.donation, 0);
+    
+    // Get the container where we'll inject the header and rows
+    const trackerDiv = document.getElementById('tracker');
+    
+    // Create a new row for total donations collected and insert it below the header
+    const totalRow = document.createElement('div');
+    totalRow.className = 'row mb-4';
+    const totalCol = document.createElement('div');
+    totalCol.className = 'col';
+    totalCol.innerHTML = `<h2>Total Donations Collected: $${totalDonations}</h2>`;
+    totalRow.appendChild(totalCol);
+    
+    // Append the total donations row (after the existing header row)
+    trackerDiv.appendChild(totalRow);
+    
+    // For each manager, create a row with a donation button and a track container
+    managerData.forEach(manager => {
+      // Compute left offset: donation / maxDonation * maxOffsetPercent.
+      // If maxDonation is 0, default to 0%.
+      const offsetPercent = maxDonation === 0 ? 0 : (manager.donation / maxDonation) * maxOffsetPercent;
+      
+      // Create a row for the manager with a bottom margin for spacing
+      const row = document.createElement('div');
+      row.className = 'row align-items-center mb-2';
+      
+      // Create the column for the donation button with fixed width
+      const buttonCol = document.createElement('div');
+      buttonCol.className = 'col-auto donate-btn-col';
+      
+      // Create the donation button as a link styled with Bootstrap's btn classes
+      const donateButton = document.createElement('a');
+      donateButton.className = 'btn btn-primary donate-button';
+      donateButton.href = manager.donationLink;
+      donateButton.target = "_blank"; // Opens link in a new tab
+      donateButton.innerText = 'Donate for ' + manager.name;
+      donateButton.style.backgroundColor = manager.color;
+      donateButton.style.border = 'none';
+      donateButton.style.color = 'black';
+      
+      // Append the donation button into its column
+      buttonCol.appendChild(donateButton);
+      
+      // Create the column for the track container (taking up remaining space)
+      const trackCol = document.createElement('div');
+      trackCol.className = 'col';
+      
+      // Create the track container
+      const trackContainer = document.createElement('div');
+      trackContainer.className = 'track-container';
+      
+      // Create the colored bar fill element with width set to offsetPercent%
+      const barFill = document.createElement('div');
+      barFill.className = 'bar-fill';
+      barFill.style.width = offsetPercent + '%';
+      barFill.style.backgroundColor = manager.color;
+      
+      // Create the manager image with dynamic left offset
+      const img = document.createElement('img');
+      img.src = manager.image;
+      img.alt = manager.name;
+      img.className = 'manager-img';
+      img.style.left = offsetPercent + '%';
+      
+      // Create the donation label with the same left offset
+      const label = document.createElement('div');
+      label.className = 'donation-label';
+      label.style.left = offsetPercent + '%';
+      label.innerText = '$' + manager.donation;
+      
+      // Append the bar fill, image, and label to the track container
+      trackContainer.appendChild(barFill);
+      trackContainer.appendChild(img);
+      trackContainer.appendChild(label);
+      
+      // Append the track container to its column
+      trackCol.appendChild(trackContainer);
+      
+      // Append both columns (donation button and track container) to the row
+      row.appendChild(buttonCol);
+      row.appendChild(trackCol);
+      
+      // Append the completed row to the tracker container
+      trackerDiv.appendChild(row);
+    });
+  </script>
+  <footer class="text-center mt-4">
+    <br>
+    <p>Hot air balloon icon made by Freepik from <a href="https://www.flaticon.com/free-icon/hot-air-balloon_1926402?term=hot+air+balloon&page=1&position=3&origin=tag&related_id=1926402" target="_blank" title="hot air balloon icons">www.flaticon.com</a></p>
+  </footer>
+</body>
+</html>
