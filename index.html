@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Logistics Clothing Drive Derby</title>
+  <link rel="icon" type="image/png" href="images/horse.png" />
   <!-- Import Barlow font from Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Barlow&display=swap" rel="stylesheet">
   <!-- Bootstrap CSS -->
@@ -95,12 +96,11 @@
       <div class="col">
         <h1><b>Logistics Clothing Drive Derby</b></h1>
         <h3><i>Who will win the race to a pie in the face?</i></h3>
-        <h3>Vote for a leader to win by <b>donating clothing to their bin</b> OR <b>donating to their Benevity page</b>!</h3>
+        <h3>Vote for a leader to win by <b>donating clothing to their bin</b> OR <b>donating to their Benevity page</b> between April 20-23!</h3>
         <ul>
-          <li>Scoring: <b>1 point = $5 Benevity donation = 1 clothing item </b><i>(1 item is 1 shirt, 1 pair of shoes, etc.)</i></li>
-          <li>Donations are open April 20–23.</li>
+          <li>Scoring: <b>1 point = $5 Benevity donation</b> OR <b>1 point = 1 clothing item </b><i>(1 clothing item is 1 shirt, 1 pair of shoes, etc.)</i></li>
           <li>All clothing and monetary donations go to <a href="https://familyscholarhouse.org/" target="_blank">Family Scholar House</a>.</li>
-          <li>The leader with the most points will "win" a pie in the face (date TBD).</li>
+          <li>The leader with the most points gets a pie in the face!</li>
           <li>This tracker will be updated daily.</li>
         </ul>
       </div>
@@ -109,34 +109,38 @@
   </div>
 
   <script>
-    // Define manager data with donation, headshot, bar color, and unique donation link
+    // Define manager data with separate dollar and clothing-item donations.
     const managerData = [
-      { name: 'Vanita', donation: 70, headshot: 'images/Vanita.png', jockeyImage: 'images/Vanita-jockey.png', color: '#BA6B6B', donationLink: 'https://benevityapp.page.link/X8fXc1qeMj9obrMP8' },
-      { name: 'David', donation: 300, headshot: 'images/David.jpg', jockeyImage: 'images/David-jockey.png', color: '#D9A16C', donationLink: 'https://benevityapp.page.link/x2xvbKagdjnxTTAm7' },
-      { name: 'Mary', donation: 65, headshot: 'images/Mary.jpg', jockeyImage: 'images/Mary-jockey.png', color: '#F6EA8C', donationLink: 'https://benevityapp.page.link/qWaBcpJUdkZotbWd6' },
-      { name: 'Jim', donation: 576, headshot: 'images/Jim.jpg', jockeyImage: 'images/Jim-jockey.png', color: '#92C68D', donationLink: 'https://benevityapp.page.link/2JQTN6BB67nrQt9eA' },
-      { name: 'Jenn', donation: 665, headshot: 'images/Jenn.jpg', jockeyImage: 'images/Jenn-jockey.png', color: '#6678C1', donationLink: 'https://benevityapp.page.link/QKgeVioqbuCCX4HN6' },
-      { name: 'Adam', donation: 140, headshot: 'images/Adam.jpg', jockeyImage: 'images/Adam-jockey.png', color: '#A18FCB', donationLink: 'https://benevityapp.page.link/uWQMi6xt38zMvNQE8' },
-      { name: 'Wanda', donation: 200, headshot: 'images/Wanda.jpg', jockeyImage: 'images/Wanda-jockey.png', color: '#D8A0B6', donationLink: 'https://benevityapp.page.link/mnsjWQY2cGe8uiPm8' }
-    ];
+      { name: 'Vanita', dollarsDonation: 70, clothingItemsDonation: 1, headshot: 'images/Vanita.png', jockeyImage: 'images/Vanita-jockey.png', color: '#BA6B6B', donationLink: 'https://benevityapp.page.link/X8fXc1qeMj9obrMP8' },
+      { name: 'David', dollarsDonation: 300, clothingItemsDonation: 0, headshot: 'images/David.jpg', jockeyImage: 'images/David-jockey.png', color: '#D9A16C', donationLink: 'https://benevityapp.page.link/x2xvbKagdjnxTTAm7' },
+      { name: 'Mary', dollarsDonation: 65, clothingItemsDonation: 5, headshot: 'images/Mary.jpg', jockeyImage: 'images/Mary-jockey.png', color: '#F6EA8C', donationLink: 'https://benevityapp.page.link/qWaBcpJUdkZotbWd6' },
+      { name: 'Jim', dollarsDonation: 576, clothingItemsDonation: 0, headshot: 'images/Jim.jpg', jockeyImage: 'images/Jim-jockey.png', color: '#92C68D', donationLink: 'https://benevityapp.page.link/2JQTN6BB67nrQt9eA' },
+      { name: 'Jenn', dollarsDonation: 665, clothingItemsDonation: 0, headshot: 'images/Jenn.jpg', jockeyImage: 'images/Jenn-jockey.png', color: '#6678C1', donationLink: 'https://benevityapp.page.link/QKgeVioqbuCCX4HN6' },
+      { name: 'Adam', dollarsDonation: 140, clothingItemsDonation: 0, headshot: 'images/Adam.jpg', jockeyImage: 'images/Adam-jockey.png', color: '#A18FCB', donationLink: 'https://benevityapp.page.link/uWQMi6xt38zMvNQE8' },
+      { name: 'Wanda', dollarsDonation: 200, clothingItemsDonation: 0, headshot: 'images/Wanda.jpg', jockeyImage: 'images/Wanda-jockey.png', color: '#D8A0B6', donationLink: 'https://benevityapp.page.link/mnsjWQY2cGe8uiPm8' }
+    ].map(manager => ({
+      ...manager,
+      points: (manager.dollarsDonation / 5) + manager.clothingItemsDonation
+    }));
     
-    // Calculate the maximum donation (to use as the baseline for positioning)
-    const maxDonation = Math.max(...managerData.map(m => m.donation));
-    // Define the maximum left offset in percentage for the highest donation.
+    // Calculate the maximum points total to use as the baseline for positioning.
+    const maxPoints = Math.max(...managerData.map(m => m.points));
+    // Define the maximum left offset in percentage for the highest score.
     const maxOffsetPercent = 80;
     
-    // Calculate total donations collected from all managers
-    const totalDonations = managerData.reduce((sum, manager) => sum + manager.donation, 0);
+    // Calculate total donations collected from all managers.
+    const totalDollars = managerData.reduce((sum, manager) => sum + manager.dollarsDonation, 0);
+    const totalClothingItems = managerData.reduce((sum, manager) => sum + manager.clothingItemsDonation, 0);
     
     // Get the container where we'll inject the header and rows
     const trackerDiv = document.getElementById('tracker');
     
-    // Create a new row for total donations collected and insert it below the header
+    // Create a new row for total donations collected and insert it below the header.
     const totalRow = document.createElement('div');
     totalRow.className = 'row mb-4';
     const totalCol = document.createElement('div');
     totalCol.className = 'col';
-    totalCol.innerHTML = `<h2><b>Total Donations Collected: $${totalDonations}</b></h2>`;
+    totalCol.innerHTML = `<h2><b>Total Donations:</b> ${totalClothingItems} clothing items + $${totalDollars}</h2>`;
     totalRow.appendChild(totalCol);
     
     // Append the total donations row (after the existing header row)
@@ -144,9 +148,8 @@
     
     // For each manager, create a row with a donation button and a track container
     managerData.forEach(manager => {
-      // Compute left offset: donation / maxDonation * maxOffsetPercent.
-      // If maxDonation is 0, default to 0%.
-      const offsetPercent = maxDonation === 0 ? 0 : (manager.donation / maxDonation) * maxOffsetPercent;
+      // Compute left offset from points. If maxPoints is 0, default to 0%.
+      const offsetPercent = maxPoints === 0 ? 0 : (manager.points / maxPoints) * maxOffsetPercent;
       
       // Create a row for the manager with a bottom margin for spacing
       const row = document.createElement('div');
@@ -208,7 +211,7 @@
       const label = document.createElement('div');
       label.className = 'donation-label';
       label.style.left = offsetPercent + '%';
-      label.innerText = manager.donation + ' pts';
+      label.innerText = manager.points + ' points';
       
       // Append the bar fill, image, and label to the track container
       trackContainer.appendChild(barFill);
