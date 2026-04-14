@@ -34,14 +34,20 @@
       height: 100%;
       z-index: 1;
     }
-    /* Manager image styling */
+    /* Track image styling */
     .manager-img {
       position: absolute;
       top: 10px;
       height: 70px;
       width: auto;
-      border-radius: 50%;
       z-index: 2;
+    }
+    .manager-headshot {
+      height: 56px;
+      width: 56px;
+      object-fit: cover;
+      border-radius: 50%;
+      flex-shrink: 0;
     }
     /* Donation label styling */
     .donation-label {
@@ -56,12 +62,17 @@
     }
     /* Donation button styling */
     .donate-button {
-      margin-right: 1rem;
+      white-space: nowrap;
     }
     /* Fixed width for donation button column ensures the track containers start at the same horizontal position */
     .donate-btn-col {
-      width: 150px;
+      width: 240px;
       flex-shrink: 0;
+    }
+    .donate-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
     }
   </style>
 </head>
@@ -74,7 +85,7 @@
       </div>
       <div class="col">
         <h1><b>Logistics Clothing Drive Derby</b></h1>
-        <p><b>Vote for a leader to win by donating a piece of clothing to their bin OR donating to their Benevity page! A $5 Benevity donation counts as 1 piece of clothing in the manager's bin.</b> The leader with the highest donations will "win" a pie in the face (date TBD). All clothing and monetarydonations go to <a href="https://familyscholarhouse.org/" target="_blank">Family Scholar House</a>. Donations close April 23. This tracker will be updated each weekday morning.</p>
+        <p><b>Vote for a leader to win by donating a piece of clothing to their bin OR donating to their Benevity page! A $5 Benevity donation counts as 1 piece of clothing in the manager's bin.</b> The leader with the highest donations will "win" a pie in the face (date TBD). All clothing and monetary donations go to <a href="https://familyscholarhouse.org/" target="_blank">Family Scholar House</a>. Donations close April 23. This tracker will be updated each weekday morning.</p>
       </div>
     </div>
     <!-- Total Donations Section will be inserted here by script -->
@@ -83,13 +94,13 @@
   <script>
     // Define manager data with donation, headshot, bar color, and unique donation link
     const managerData = [
-      { name: 'Vanita', donation: 70, image: 'images/Vanita.png', color: '#BA6B6B', donationLink: 'https://benevityapp.page.link/X8fXc1qeMj9obrMP8' },
-      { name: 'David',   donation: 300,  image: 'images/David.jpg',   color: '#D9A16C', donationLink: 'https://benevityapp.page.link/x2xvbKagdjnxTTAm7' },
-      { name: 'Mary',    donation: 65, image: 'images/Mary.jpg',    color: '#F6EA8C', donationLink: 'https://benevityapp.page.link/qWaBcpJUdkZotbWd6' },
-      { name: 'Jim',     donation: 576, image: 'images/Jim.jpg',     color: '#92C68D', donationLink: 'https://benevityapp.page.link/2JQTN6BB67nrQt9eA' },
-      { name: 'Jenn',    donation: 665,  image: 'images/Jenn.jpg',    color: '#6678C1', donationLink: 'https://benevityapp.page.link/QKgeVioqbuCCX4HN6' },
-      { name: 'Adam',    donation: 140, image: 'images/Adam.jpg',    color: '#A18FCB', donationLink: 'https://benevityapp.page.link/uWQMi6xt38zMvNQE8' },
-      { name: 'Wanda',   donation: 200, image: 'images/Wanda.jpg',   color: '#D8A0B6', donationLink: 'https://benevityapp.page.link/mnsjWQY2cGe8uiPm8' }
+      { name: 'Vanita', donation: 70, headshot: 'images/Vanita.png', jockeyImage: 'images/Vanita-jockey.png', color: '#BA6B6B', donationLink: 'https://benevityapp.page.link/X8fXc1qeMj9obrMP8' },
+      { name: 'David', donation: 300, headshot: 'images/David.jpg', jockeyImage: 'images/David-jockey.png', color: '#D9A16C', donationLink: 'https://benevityapp.page.link/x2xvbKagdjnxTTAm7' },
+      { name: 'Mary', donation: 65, headshot: 'images/Mary.jpg', jockeyImage: 'images/Mary-jockey.png', color: '#F6EA8C', donationLink: 'https://benevityapp.page.link/qWaBcpJUdkZotbWd6' },
+      { name: 'Jim', donation: 576, headshot: 'images/Jim.jpg', jockeyImage: 'images/Jim-jockey.png', color: '#92C68D', donationLink: 'https://benevityapp.page.link/2JQTN6BB67nrQt9eA' },
+      { name: 'Jenn', donation: 665, headshot: 'images/Jenn.jpg', jockeyImage: 'images/Jenn-jockey.png', color: '#6678C1', donationLink: 'https://benevityapp.page.link/QKgeVioqbuCCX4HN6' },
+      { name: 'Adam', donation: 140, headshot: 'images/Adam.jpg', jockeyImage: 'images/Adam-jockey.png', color: '#A18FCB', donationLink: 'https://benevityapp.page.link/uWQMi6xt38zMvNQE8' },
+      { name: 'Wanda', donation: 200, headshot: 'images/Wanda.jpg', jockeyImage: 'images/Wanda-jockey.png', color: '#D8A0B6', donationLink: 'https://benevityapp.page.link/mnsjWQY2cGe8uiPm8' }
     ];
     
     // Calculate the maximum donation (to use as the baseline for positioning)
@@ -128,6 +139,14 @@
       const buttonCol = document.createElement('div');
       buttonCol.className = 'col-auto donate-btn-col';
       
+      const donateControls = document.createElement('div');
+      donateControls.className = 'donate-controls';
+
+      const headshot = document.createElement('img');
+      headshot.src = manager.headshot;
+      headshot.alt = manager.name + ' headshot';
+      headshot.className = 'manager-headshot';
+
       // Create the donation button as a link styled with Bootstrap's btn classes
       const donateButton = document.createElement('a');
       donateButton.className = 'btn btn-primary donate-button';
@@ -138,8 +157,10 @@
       donateButton.style.border = 'none';
       donateButton.style.color = 'black';
       
-      // Append the donation button into its column
-      buttonCol.appendChild(donateButton);
+      // Append the headshot and donation button into the button column
+      donateControls.appendChild(headshot);
+      donateControls.appendChild(donateButton);
+      buttonCol.appendChild(donateControls);
       
       // Create the column for the track container (taking up remaining space)
       const trackCol = document.createElement('div');
@@ -157,10 +178,14 @@
       
       // Create the manager image with dynamic left offset
       const img = document.createElement('img');
-      img.src = manager.image;
+      img.src = manager.jockeyImage;
       img.alt = manager.name;
       img.className = 'manager-img';
       img.style.left = offsetPercent + '%';
+      img.onerror = () => {
+        img.onerror = null;
+        img.src = manager.headshot;
+      };
       
       // Create the donation label with the same left offset
       const label = document.createElement('div');
