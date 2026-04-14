@@ -96,7 +96,7 @@
       <div class="col">
         <h1><b>Logistics Clothing Drive Derby</b></h1>
         <h3><i>Who will win the race to a pie in the face?</i></h3>
-        <h3>Vote for a leader to win by <b>donating clothing to their bin</b> OR <b>donating to their Benevity page</b> between April 20-23!</h3>
+        <h3>Vote for a leader by <b>donating clothing to their bin</b> OR <b>donating to their Benevity page</b> between April 20-23!</h3>
         <ul>
           <li>Scoring: <b>1 point = $5 Benevity donation</b> OR <b>1 point = 1 clothing item </b><i>(1 clothing item is 1 shirt, 1 pair of shoes, etc.)</i></li>
           <li>All clothing and monetary donations go to <a href="https://familyscholarhouse.org/" target="_blank">Family Scholar House</a>.</li>
@@ -201,7 +201,7 @@
       img.src = manager.jockeyImage;
       img.alt = manager.name;
       img.className = 'manager-img';
-      img.style.left = offsetPercent + '%';
+      img.style.left = `min(${offsetPercent}%, calc(100% - 90px))`;
       img.onerror = () => {
         img.onerror = null;
         img.src = manager.headshot;
@@ -210,7 +210,7 @@
       // Create the donation label with the same left offset
       const label = document.createElement('div');
       label.className = 'donation-label';
-      label.style.left = offsetPercent + '%';
+      label.style.left = `min(${offsetPercent}%, calc(100% - 150px))`;
       label.innerText = manager.points + ' points';
       
       // Append the bar fill, image, and label to the track container
