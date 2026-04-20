@@ -121,13 +121,13 @@
   <script>
     // Define manager data with separate dollar and clothing-item donations.
     const managerData = [
-      { name: 'Vanita', dollarsDonation: 0, clothingItemsDonation: 0, headshot: 'images/Vanita.png', jockeyImage: 'images/Vanita-jockey.png', color: '#BA6B6B', donationLink: 'https://benevityapp.page.link/X8fXc1qeMj9obrMP8' },
-      { name: 'David', dollarsDonation: 0, clothingItemsDonation: 0, headshot: 'images/David.jpg', jockeyImage: 'images/David-jockey.png', color: '#D9A16C', donationLink: 'https://benevityapp.page.link/x2xvbKagdjnxTTAm7' },
-      { name: 'Mary', dollarsDonation: 0, clothingItemsDonation: 0, headshot: 'images/Mary.jpg', jockeyImage: 'images/Mary-jockey.png', color: '#F6EA8C', donationLink: 'https://benevityapp.page.link/qWaBcpJUdkZotbWd6' },
-      { name: 'Jim', dollarsDonation: 0, clothingItemsDonation: 0, headshot: 'images/Jim.jpg', jockeyImage: 'images/Jim-jockey.png', color: '#92C68D', donationLink: 'https://benevityapp.page.link/2JQTN6BB67nrQt9eA' },
-      { name: 'Jenn', dollarsDonation: 0, clothingItemsDonation: 0, headshot: 'images/Jenn.jpg', jockeyImage: 'images/Jenn-jockey.png', color: '#6678C1', donationLink: 'https://benevityapp.page.link/QKgeVioqbuCCX4HN6' },
-      { name: 'Adam', dollarsDonation: 0, clothingItemsDonation: 0, headshot: 'images/Adam.jpg', jockeyImage: 'images/Adam-jockey.png', color: '#A18FCB', donationLink: 'https://benevityapp.page.link/uWQMi6xt38zMvNQE8' },
-      { name: 'Wanda', dollarsDonation: 0, clothingItemsDonation: 0, headshot: 'images/Wanda.jpg', jockeyImage: 'images/Wanda-jockey.png', color: '#D8A0B6', donationLink: 'https://benevityapp.page.link/mnsjWQY2cGe8uiPm8' }
+      { name: 'Vanita', dollarsDonation: 0, clothingItemsDonation: 0, headshot: 'images/Vanita.png', jockeyImage: 'images/Vanita-jockey.png', color: '#BA6B6B', donationLink: '' },
+      { name: 'David', dollarsDonation: 0, clothingItemsDonation: 0, headshot: 'images/David.jpg', jockeyImage: 'images/David-jockey.png', color: '#D9A16C', donationLink: '' },
+      { name: 'Mary', dollarsDonation: 0, clothingItemsDonation: 0, headshot: 'images/Mary.jpg', jockeyImage: 'images/Mary-jockey.png', color: '#F6EA8C', donationLink: '' },
+      { name: 'Jim', dollarsDonation: 0, clothingItemsDonation: 0, headshot: 'images/Jim.jpg', jockeyImage: 'images/Jim-jockey.png', color: '#92C68D', donationLink: '' },
+      { name: 'Jenn', dollarsDonation: 0, clothingItemsDonation: 0, headshot: 'images/Jenn.jpg', jockeyImage: 'images/Jenn-jockey.png', color: '#6678C1', donationLink: '' },
+      { name: 'Adam', dollarsDonation: 0, clothingItemsDonation: 0, headshot: 'images/Adam.jpg', jockeyImage: 'images/Adam-jockey.png', color: '#A18FCB', donationLink: '' },
+      { name: 'Wanda', dollarsDonation: 0, clothingItemsDonation: 0, headshot: 'images/Wanda.jpg', jockeyImage: 'images/Wanda-jockey.png', color: '#D8A0B6', donationLink: '' }
     ].map(manager => ({
       ...manager,
       points: (manager.dollarsDonation / 5) + manager.clothingItemsDonation
@@ -186,7 +186,7 @@
       donateButton.className = 'btn btn-primary donate-button';
       donateButton.href = manager.donationLink;
       donateButton.target = "_blank"; // Opens link in a new tab
-      donateButton.innerText = 'Donate for ' + manager.name;
+      donateButton.innerText = 'Coming Soon - Donate for ' + manager.name;
       donateButton.style.backgroundColor = manager.color;
       donateButton.style.border = 'none';
       donateButton.style.color = 'black';
